@@ -1,0 +1,23 @@
+[terminal]
+shell = "/bin/zsh"
+
+[window]
+decorations = "Full"
+startup_mode = "Maximized"
+dynamic_title = false
+title = ""
+decorations_theme_variant = "Dark"
+
+[keyboard]
+bindings = [
+{ key = "Back", mods = "Control", chars = "\u0015" },
+{ key = ";", mods = "Control", action = "ToggleViMode" },
+{ key = ",", mods = "Control", chars = "\u001BB" },
+{ key = ".", mods = "Control", chars = "\u001BF" },
+]
+
+[font]
+normal.family = "JetBrainsMono Nerd Font Mono"
+normal.style = "Thin"
+size = 16
+
