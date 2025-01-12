@@ -2,7 +2,7 @@
 
 ## Setup
 ```sh
-git clone https://github.com/sxxxi/dotfiles $HOME/.dotfiles
+git clone https://github.com/sxxxi/fedora-dotfiles $HOME/.dotfiles
 cd ~/.dotfiles && stow .    # Make sure to remove old symlinks
 ```
 
