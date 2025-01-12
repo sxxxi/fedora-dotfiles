@@ -34,12 +34,15 @@ prompt() {
 
 # ENTRYPOINT
 sudo dnf update -y;
-sudo dnf install -y curl tmux ripgrep git stow neovim zsh alacritty;
 
-if [ "$SHELL" = "/bin/zsh" ]; then
+if [ "$SHELL" != "/bin/zsh" ]; then
+    sudo dnf install -y zsh;
     sudo usermod -s /bin/zsh $USER;
-    sudo su - $USER
+    echo "Rebooting to change your shell to zsh. ABORT NOW IF YOU DONT WANNA!" && sleep 10;
+    sudo reboot;
 fi;
+
+sudo dnf install -y curl tmux ripgrep git stow neovim alacritty;
 
 # Docker
 if [ -z $(command -v docker) ]; then
@@ -62,7 +65,7 @@ if [ -z $(command -v docker) ]; then
     if [ -z $(groups $USER | grep "docker") ]; then
         sudo groupadd docker;
         sudo usermod -aG docker $USER;
-        sudo su -$USER
+        echo "Reboot after the script to add the user to the docker group." && sleep 10;
     fi;
 fi;
 
@@ -100,3 +103,9 @@ prompt GIT_USER_NAME "Name" "$(git config --global user.name)";
 git config --global init.defaultBranch "$GIT_DEFAULT_BRANCH";
 git config --global user.email "$GIT_USER_EMAIL";
 git config --global user.name "$GIT_USER_NAME";
+
+# GNOME settings
+gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+sudo su - $USER
