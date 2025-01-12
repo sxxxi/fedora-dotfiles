@@ -34,18 +34,17 @@ prompt() {
 
 # ENTRYPOINT
 sudo dnf update -y;
+sudo dnf install -y curl tmux zsh ripgrep git stow neovim alacritty;
 
+# Link config files
+cd $(dirname $0) && stow .;
+
+# Change user shell to zsh
 if [ "$SHELL" != "/bin/zsh" ]; then
-    sudo dnf install -y zsh;
     sudo usermod -s /bin/zsh $USER;
     echo "Rebooting to change your shell to zsh. ABORT NOW IF YOU DONT WANNA!" && sleep 10;
     sudo reboot;
 fi;
-
-sudo dnf install -y curl tmux ripgrep git stow neovim alacritty;
-
-# Link config files
-cd $(dirname $0) && stow .;
 
 # Docker
 if [ -z $(command -v docker) ]; then
