@@ -44,6 +44,9 @@ fi;
 
 sudo dnf install -y curl tmux ripgrep git stow neovim alacritty;
 
+# Link config files
+cd $(dirname $0) && stow .;
+
 # Docker
 if [ -z $(command -v docker) ]; then
     # Remove old versions
@@ -88,6 +91,8 @@ ABS_KEY_FILE="$SSH_DIR/$KEY_NAME";
 if [ ! -f $ABS_KEY_FILE ]; then
     prompt KEY_COMMENT "Enter comment";
     ssh-keygen -t ed25519 -C $KEY_COMMENT -f $ABS_KEY_FILE;
+    eval "$(ssh-agent -s)";
+    ssh-add $ABS_KEY_FILE;
 fi;
 
 echo "Public key: $(cat $ABS_KEY_FILE.pub)\n";
