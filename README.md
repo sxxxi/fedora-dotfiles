@@ -3,11 +3,11 @@
 ## Setup
 ```sh
 git clone https://github.com/sxxxi/fedora-dotfiles $HOME/.dotfiles
-cd ~/.dotfiles && stow .    # Make sure to remove old symlinks
+cd $HOME/.dotfiles/config && stow -t ~ .
 ```
 
 ## Notes
-* Notes here :)
+- `dconf watch /` shows configuration changes. Really cool.
 
 ## Dependencies
 * Alacritty
