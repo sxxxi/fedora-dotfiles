@@ -55,6 +55,32 @@ promptbool() {
 sudo dnf update -y;
 sudo dnf install -y curl tmux zsh ripgrep git stow neovim alacritty;
 
+if promptbool "Modify GNOME settings?"; then
+    # GNOME settings
+    # Mess with the settings app while running `dconf watch /` to see the changes
+    # Run this outside of tmux and make sure the $DISPLAY variable is not empty when you echo it
+    gsettings set org.gtk.gtk4.Settings.FileChooser show-hidden true;                                               # Show hidden files in the file explorer
+    gsettings set org.gnome.system.location enabled false;                                                          # Location sharing
+    gsettings set org.gnome.desktop.session idle-delay 0;                                                           # Turn off screen timeout
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark;                                             # Dark mode
+    gsettings set org.gnome.desktop.interface accent-color "purple";                                                # SLAAAAYY!
+    gsettings set org.gnome.desktop.screensaver picture-uri "file:///usr/share/backgrounds/gnome/blobs-l.svg";      # Set my favourite wallpaper as default
+    gsettings set org.gnome.desktop.screensaver primary-color "#241f31";                                            # IDK
+    gsettings set org.gnome.desktop.peripherals.mouse accel-profile flat;                                           # Mouse acceleration off
+    gsettings set org.gnome.desktop.peripherals.mouse speed 0;                                                      # Mouse speed
+    gsettings set org.gnome.desktop.input-sources sources "[('ibus', 'anthy'), ('xkb', 'us')]";                     # Add japanese input
+    gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'us')]";                                    # IDK lol
+
+    # The new terminal's config. Just install Ptyxis when using F40 I guess?
+    gsettings set org.gnome.Ptyxis interface-style "dark";
+    gsettings set org.gnome.Ptyxis use-system-font false;
+    gsettings set org.gnome.Ptyxis font-name "JetBrainsMonoNL Nerd Font Mono Thin 12";
+    gsettings set org.gnome.Ptyxis cursor-shape "ibeam";
+    gsettings set org.gnome.Ptyxis cursor-blink-mode "on";
+    gsettings set org.gnome.Ptyxis.Shortcuts move-previous-tab "<Shift><Control>h";
+    gsettings set org.gnome.Ptyxis.Shortcuts move-next-tab "<Shift><Control>l";
+fi;
+
 # Link config files
 cd $(dirname $0) && stow .;
 
@@ -129,23 +155,6 @@ if promptbool "Perform GIT configuration?"; then
     git config --global init.defaultBranch "$GIT_DEFAULT_BRANCH";
     git config --global user.email "$GIT_USER_EMAIL";
     git config --global user.name "$GIT_USER_NAME";
-fi;
-
-if promptbool "Modify GNOME settings?"; then
-    # GNOME settings
-    # Mess with the settings app while running `dconf watch /` to see the changes
-    # Run this outside of tmux and make sure the $DISPLAY variable is not empty when you echo it
-    gsettings set org.gtk.gtk4.settings.file-chooser show-hidden true;                                              # Show hidden files in the file explorer
-    gsettings set org.gnome.system.location enabled false;                                                          # Location sharing
-    gsettings set org.gnome.desktop.session idle-delay 0;                                                           # Turn off screen timeout
-    gsettings set org.gnome.desktop.interface color-scheme prefer-dark;                                             # Dark mode
-    gsettings set org.gnome.desktop.interface accent-color "purple";                                                # SLAAAAYY!
-    gsettings set org.gnome.desktop.screensaver picture-uri "file:///usr/share/backgrounds/gnome/blobs-l.svg";      # Set my favourite wallpaper as default
-    gsettings set org.gnome.desktop.screensaver primary-color "#241f31";                                            # IDK
-    gsettings set org.gnome.desktop.peripherals.mouse accel-profile flat;                                           # Mouse acceleration off
-    gsettings set org.gnome.desktop.peripherals.mouse speed 0;                                                      # Mouse speed
-    gsettings set org.gnome.desktop.input-sources sources "[('ibus', 'anthy'), ('xkb', 'us')]";                     # Add japanese input
-    gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'us')]";                                    # IDK lol
 fi;
 
 promptreboot;
